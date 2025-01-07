@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 export type usePromiseReturnType<T = any> = {
   data: T | null;
@@ -16,6 +16,10 @@ export default function usePromise<T = any, P extends any[] = []>(
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<any | null>(null);
 
+  const stableParams = useMemo(() => params, [params]);
+  const stableCallback = useCallback(callback, []);
+  const stableSelector = useMemo(() => selector, [selector]);
+
   const exec = useCallback(() => {
     setLoading(true);
     setError(null);
@@ -32,7 +36,7 @@ export default function usePromise<T = any, P extends any[] = []>(
 
   useEffect(() => {
     exec();
-  }, [callback, selector, params]);
+  }, [stableCallback, stableSelector, stableParams]);
 
   return { data, loading, error, exec };
 }

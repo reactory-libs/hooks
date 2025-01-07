@@ -5,6 +5,9 @@
   "types": "dist/index.d.ts",
   "author": "reactoty",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc",
     "format": "npx prettier --write ."
